@@ -40,7 +40,7 @@ curl -s https://crt.sh/?Identity=%.$1 | grep ">*.$1" | sed 's/<[/]*[TB][DR]>/\n/
 }
 
 certnmap(){
-curl -s https://certspotter.com/api/v0/certs\?domain\=$1 | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep "$1" | while read domain; do echo -e "${domain}:\n"; sudo nmap -T5 -Pn -sS $domain | tee -a $.nmap.txt ; done
+curl -s https://certspotter.com/api/v0/certs\?domain\=$1 | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep "$1" | while read domain; do echo -e "${domain}:\n"; sudo nmap -T5 -Pn -sS $domain | tee -a $1.nmap.txt ; done
 } #h/t Jobert Abma #requires root privileges
 
 ipinfo(){
