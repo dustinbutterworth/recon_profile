@@ -28,7 +28,7 @@ curl -s https://crt.sh/\?q\=\%.$1\&output\=json | jq -r '.[].name_value' | sed '
 }
 
 mscan(){ #runs masscan
-sudo masscan -p4443,2075,2076,6443,3868,3366,8443,8080,9443,9091,3000,8000,5900,8081,6000,10000,8181,3306,5000,4000,8888,5432,15672,9999,161,4044,7077,4040,9000,8089,443,744$}
+sudo masscan -p4443,2075,2076,6443,3868,3366,8443,8080,9443,9091,3000,8000,5900,8081,6000,10000,8181,3306,5000,4000,8888,5432,15672,9999,161,4044,7077,4040,9000,8089,443,744$
 }
 
 certspotter(){ 
@@ -40,8 +40,8 @@ curl -s https://crt.sh/?Identity=%.$1 | grep ">*.$1" | sed 's/<[/]*[TB][DR]>/\n/
 }
 
 certnmap(){
-curl https://certspotter.com/api/v0/certs\?domain\=$1 | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep $1  | nmap -T5 -Pn -sS -i - -$
-} #h/t Jobert Abma
+curl -s https://certspotter.com/api/v0/certs\?domain\=$1 | jq '.[].dns_names[]' | sed 's/\"//g' | sed 's/\*\.//g' | sort -u | grep "$1" | while read domain; do echo -e "${domain}:\n"; sudo nmap -T5 -Pn -sS $domain | tee -a $.nmap.txt ; done
+} #h/t Jobert Abma #requires root privileges
 
 ipinfo(){
 curl http://ipinfo.io/$1
